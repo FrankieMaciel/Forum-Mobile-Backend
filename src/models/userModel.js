@@ -26,30 +26,29 @@ class User {
 
   async validate(validateMode) {
     this.cleanUp();
-
-    const isEmailValid = validator.isEmail(this.body.email);
-    const isPasswordValid = this.body.password.length < sys.maxPasswordLen || 
+    const isPasswordValid = this.body.password.length < sys.maxPasswordLen && 
                             this.body.password.length > sys.minPasswordLen;
 
     const user = await UserModel.findOne({ email: this.body.email });
+
+    if (!isPasswordValid) this.errors.push(
+      `A senha deve possuir entre ${sys.minPasswordLen} e ${sys.maxPasswordLen} caracteres!`
+    );
+    if (validateMode === 'login') return user;
+
     const hasName = await UserModel.findOne({ username: this.body.username });
+    const isEmailValid = validator.isEmail(this.body.email);
 
     if (!isEmailValid) this.errors.push(
       'Email inválido!'
     );
-    if (isPasswordValid) this.errors.push(
-      'A senha deve possuir entre 8 e 20 caracteres!'
-    );
-
-    if (validateMode === 'login') return user;
-
     if (hasName) this.errors.push(
       'Nome de usuário indisponível!'
     );
     if (user) this.errors.push(
       'Usuário já cadastrado!'
     );
-  }
+}
 
   async register() {
     this.validate('register');
@@ -65,7 +64,7 @@ class User {
   }
 
   async login() {
-    user = this.validate('login');
+    let user = await this.validate('login');
     if (this.errors.length > 0) return;
 
     if (!user) {

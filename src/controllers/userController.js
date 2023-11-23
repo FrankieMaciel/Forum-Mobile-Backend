@@ -1,4 +1,9 @@
+require('dotenv').config();
+
+const secretKey = process.env.SECRET_KEY;
+
 const path = require('path');
+const jwt = require('jsonwebtoken');
 
 const User = require(path.resolve(__dirname, '..', 'models', 'userModel'));
 
@@ -16,7 +21,29 @@ const create = async (req, res) => {
       return res.status(500).send('Ocorreu um erro no servidor.');
     }
 
-    return res.status(200).send('Requisição bem-sucedida.');
+    return res.status(200).send('Usuário registrado com sucesso!');
+  } catch (e) {
+    console.log(e);
+    return res.status(500).send('Ocorreu um erro no servidor.');
+  }
+};
+
+const login = async (req, res) => {
+  try {
+    const user = new User(req.body);
+    await user.login();
+
+    if (user.errors.length > 0) return 
+
+    const token = jwt.sign({
+      id: user._id, nome: user.username
+    }, secretKey);
+
+    let obj = {
+      token: token
+    };
+    
+    return  res.status(200).send(JSON.stringify(obj));
   } catch (e) {
     console.log(e);
     return res.status(500).send('Ocorreu um erro no servidor.');
@@ -24,5 +51,6 @@ const create = async (req, res) => {
 };
 
 module.exports = {
-  create
+  create,
+  login
 }

@@ -23,13 +23,8 @@ database.connect()
   app.emit(dbConn);
 }).catch(err => console.log(err));
 
-const { sessionUser } = require(
-  path.resolve(__dirname, 'src', 'middlewares', 'sessionMiddleware')
-);
-
 app.use(database.sessionOptions);
 app.use(database.flash());
-app.use(sessionUser);
 
 app.on(dbConn, () => app.listen ( port, () => {
   console.log(`Server listening on port ${port} | Access http://localhost:${port}`)
