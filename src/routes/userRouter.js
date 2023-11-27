@@ -7,6 +7,9 @@ const userController = require(path.resolve(
 );
 
 router.post('/', userController.create);
+router.get('/', userController.readAll);
+router.get('/:id', userController.readById);
 router.post('/login', userController.login);
+router.post('/edit/:id', userController.update);
 
 module.exports = router;

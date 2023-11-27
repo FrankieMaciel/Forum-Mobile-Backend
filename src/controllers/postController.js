@@ -2,7 +2,6 @@ const path = require('path');
 const { post } = require('../routes/router');
 
 const Post = require(path.resolve(__dirname, '..', 'models', 'postModel'));
-const User = require(path.resolve(__dirname, '..', 'models', 'userModel'));
 
 const create = async (req, res) => {
   let p = await new Post(req.body);
@@ -11,34 +10,18 @@ const create = async (req, res) => {
 
 const readAll = async (req, res) => {
   let posts = await Post.readAll();
-
-  let postsWithUsers = [];
-  for (let post of posts) {
-    let UserInfo = await User.readById(post.user);
-    let filteredUserInfo = null;
-
-    if (UserInfo) {
-      filteredUserInfo = {
-        username: UserInfo.username,
-        Profile: UserInfo.ProfileUrl
-      }
-    }
-
-    postsWithUsers.push(
-      {
-        post: post,
-        userInfo: filteredUserInfo
-      }
-    )
-  }
-
-  return res.status(200).send(postsWithUsers);
+  return res.status(200).send(posts);
 };
 
 const readByUser = async (req, res) => {
   let user = req.params.id;
   let posts = await Post.readByUser(user);
   return res.status(200).send(posts);
+};
+
+const editPost = async (req, res) => {
+  Post.update(req.params.id, req.body);
+  return res.status(200).send("Post atualizado com sucesso!");
 };
 
 const destroy = async (req, res) => {
@@ -57,6 +40,7 @@ module.exports = {
   create,
   readAll,
   readByUser,
+  editPost,
   destroy,
   readFilter
 };

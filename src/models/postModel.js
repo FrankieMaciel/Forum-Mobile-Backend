@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const PostSchema = new mongoose.Schema({
   user: { type: String, require: true },
+  userProfile: { type: String, require: true },
   title: { type: String, required: true },
   content: { type: String, require: true },
   date: { type: Date, default: Date.now },
@@ -35,6 +36,25 @@ class Post {
     if (typeof user !== 'string') return;
     const posts = await PostModel.find({ user });
     return posts;
+  }
+
+  static async update(id, body) {
+    if (typeof id !== 'string') return;
+
+    const post = await PostModel.findById(id);
+
+    let newUsername = body.username ? body.username : post.username;
+    let newUserProfile = body.userProfile ? body.userProfile : post.userProfile;
+    let newTitle = body.title ? body.title : post.title;
+    let newContent = body.content ? body.content : post.content;
+
+    const edit = {
+      username: newUsername,
+      userProfile: newUserProfile,
+      title: newTitle,
+      content: newContent
+    };
+    await PostModel.findByIdAndUpdate(id, edit, { new: true });
   }
 
   static async delete(id) {

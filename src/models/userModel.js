@@ -80,14 +80,35 @@ class User {
     }
   }
 
+  static async readAll() {
+    return await UserModel.find().sort({ score: -1, name: 1 });
+  }
+
   static async readById(id) {
     if (typeof id !== 'string') return;
-    try {
-      const user = await UserModel.findById(id);
-      return user;
-    } catch (e) {
+    const user = await UserModel.findById(id);
+    return user;
+  }
 
-    }
+  static async update(id, body) {
+    if (typeof id !== 'string') return;
+
+    const user = await UserModel.findById(id);
+
+    let newUsername = body.username ? body.username : user.username;
+    let newUserProfile = body.ProfileUrl ? body.ProfileUrl : user.ProfileUrl;
+    let newEmail = body.email ? body.email : user.email;
+    let newPassword = body.password ? body.password : user.password;
+    let newScore = body.score ? body.score : user.score;
+
+    const edit = {
+      username: newUsername,
+      ProfileUrl: newUserProfile,
+      email: newEmail,
+      password: newPassword,
+      score: newScore
+    };
+    await UserModel.findByIdAndUpdate(id, edit, { new: true });
   }
 
   cleanUp() {

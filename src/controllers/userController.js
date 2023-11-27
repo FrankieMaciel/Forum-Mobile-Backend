@@ -50,7 +50,25 @@ const login = async (req, res) => {
   }
 };
 
+const readAll = async (req, res) => {
+  let users = await User.readAll();
+  return res.status(200).send(users);
+}
+
+const readById = async (req, res) => {
+  let user = await User.readById(req.params.id);
+  return res.status(200).send(user);
+}
+
+const update = async (req, res) => {
+  await User.update(req.params.id, req.body);
+  return res.status(200).send('Usuário foi atualizado com sucesso!');
+}
+
 module.exports = {
   create,
-  login
+  login,
+  readAll,
+  readById,
+  update
 }
