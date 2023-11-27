@@ -80,6 +80,16 @@ class User {
     }
   }
 
+  static async readById(id) {
+    if (typeof id !== 'string') return;
+    try {
+      const user = await UserModel.findById(id);
+      return user;
+    } catch (e) {
+
+    }
+  }
+
   cleanUp() {
     for (const key in this.body)
       if (typeof this.body[key] !== 'string') this.body[key] = '';

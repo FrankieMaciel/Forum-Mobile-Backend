@@ -7,7 +7,10 @@ const PostSchema = new mongoose.Schema({
   date: { type: Date, default: Date.now },
 });
 
-PostSchema.index({ title: 'text', content: 'text' }, { default_language: 'pt', weights: { title: 2, content: 1 } });
+PostSchema.index(
+  { title: 'text', content: 'text' },
+  { default_language: 'pt', weights: { title: 2, content: 1 }}
+  );
 
 const PostModel = mongoose.model('Post', PostSchema);
 
