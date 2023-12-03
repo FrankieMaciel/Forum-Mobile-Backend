@@ -26,8 +26,8 @@ class User {
 
   async validate(validateMode) {
     this.cleanUp();
-    const isPasswordValid = this.body.password.length < sys.maxPasswordLen && 
-                            this.body.password.length > sys.minPasswordLen;
+    const isPasswordValid = this.body.password.length <= sys.maxPasswordLen && 
+                            this.body.password.length >= sys.minPasswordLen;
 
     const user = await UserModel.findOne({ email: this.body.email });
 

@@ -6,10 +6,16 @@ const postController = require(path.resolve(
   __dirname, '..', 'controllers', 'postController')
 );
 
-router.post('/', postController.create);
-router.get('/', postController.readAll);
-router.get('/delete/:id', postController.destroy);
-router.post('/edit/:id', postController.editPost);
-router.get('/user/:id', postController.readByUser);
+const tokenMiddleware = require(path.resolve(
+  __dirname, '..', 'middlewares', 'tokenMiddleware')
+);
+
+TM = tokenMiddleware.isAuthenticated;
+
+router.post('/',TM, postController.create);
+router.get('/',TM, postController.readAll);
+router.get('/delete/:id',TM, postController.destroy);
+router.post('/edit/:id',TM, postController.editPost);
+router.get('/user/:id',TM, postController.readByUser);
 
 module.exports = router;

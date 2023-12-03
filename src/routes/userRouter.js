@@ -6,10 +6,16 @@ const userController = require(path.resolve(
   __dirname, '..', 'controllers', 'userController')
 );
 
+const tokenMiddleware = require(path.resolve(
+  __dirname, '..', 'middlewares', 'tokenMiddleware')
+);
+
+TM = tokenMiddleware.isAuthenticated;
+
 router.post('/', userController.create);
-router.get('/', userController.readAll);
-router.get('/:id', userController.readById);
+router.get('/',TM, userController.readAll);
+router.get('/:id',TM, userController.readById);
 router.post('/login', userController.login);
-router.post('/edit/:id', userController.update);
+router.post('/edit/:id',TM, userController.update);
 
 module.exports = router;

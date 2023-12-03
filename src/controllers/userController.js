@@ -21,7 +21,15 @@ const create = async (req, res) => {
       return res.status(500).send('Ocorreu um erro no servidor.');
     }
 
-    return res.status(200).send('Usuário registrado com sucesso!');
+    const token = jwt.sign({
+      id: user._id, nome: user.username
+    }, secretKey);
+
+    let obj = {
+      token: token
+    };
+    
+    return  res.status(200).send(JSON.stringify(obj));
   } catch (e) {
     console.log(e);
     return res.status(500).send('Ocorreu um erro no servidor.');
@@ -32,8 +40,11 @@ const login = async (req, res) => {
   try {
     const user = new User(req.body);
     await user.login();
-
-    if (user.errors.length > 0) return 
+    
+    if (user.errors.length > 0) {
+      const erro = new Error(JSON.stringify(user.errors));
+      return res.send({ error: erro.message});
+    } 
 
     const token = jwt.sign({
       id: user._id, nome: user.username
