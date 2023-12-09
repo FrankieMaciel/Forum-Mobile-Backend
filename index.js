@@ -18,14 +18,14 @@ const database = require(
   path.resolve(__dirname, 'src', 'database', 'mongo')
 );
 database.connect()
-.then(() => {
-  console.log(dbConn);
-  app.emit(dbConn);
-}).catch(err => console.log(err));
+  .then(() => {
+    console.log(dbConn);
+    app.emit(dbConn);
+  }).catch(err => console.log(err));
 
 app.use(database.sessionOptions);
 app.use(database.flash());
 
-app.on(dbConn, () => app.listen ( port, () => {
-  console.log(`Server listening on port ${port} | Access http://localhost:${port}`)
+app.on(dbConn, () => app.listen(port, () => {
+  console.log(`Server listening on port ${port} | Access http://localhost:${port}`);
 }));

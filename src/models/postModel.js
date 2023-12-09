@@ -6,8 +6,11 @@ const UserSchema = new mongoose.Schema({
 });
 
 const PostSchema = new mongoose.Schema({
-  user: { type: UserSchema, require: true },
-  userProfile: { type: String, require: true },
+  user: {
+    id: { type: String, required: true },
+    name: { type: String, required: true },
+    profileURL: { type: String, required: true }
+  },
   title: { type: String, required: true },
   content: { type: String, require: true },
   date: { type: Date, default: Date.now },
@@ -15,8 +18,8 @@ const PostSchema = new mongoose.Schema({
 
 PostSchema.index(
   { title: 'text', content: 'text' },
-  { default_language: 'pt', weights: { title: 2, content: 1 }}
-  );
+  { default_language: 'pt', weights: { title: 2, content: 1 } }
+);
 
 const PostModel = mongoose.model('Post', PostSchema);
 

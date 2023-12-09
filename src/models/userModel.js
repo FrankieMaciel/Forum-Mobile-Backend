@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema({
   username: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
-  ProfileUrl: { type: String, default: '/img/emojii1.png' },
+  profileURL: { type: String, default: '/img/emojii1.png' },
   score: { type: Number, default: 0 }
 });
 
@@ -26,8 +26,8 @@ class User {
 
   async validate(validateMode) {
     this.cleanUp();
-    const isPasswordValid = this.body.password.length <= sys.maxPasswordLen && 
-                            this.body.password.length >= sys.minPasswordLen;
+    const isPasswordValid = this.body.password.length <= sys.maxPasswordLen &&
+      this.body.password.length >= sys.minPasswordLen;
 
     const user = await UserModel.findOne({ email: this.body.email });
 
@@ -48,7 +48,7 @@ class User {
     if (user) this.errors.push(
       'Usuário já cadastrado!'
     );
-}
+  }
 
   async register() {
     this.validate('register');

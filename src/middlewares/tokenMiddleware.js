@@ -15,7 +15,7 @@ const isAuthenticated = async (req, res, next) => {
   } else {
     res.status(401).json({ error: 'É preciso de um token de autorização!' });
   }
-}
+};
 
 module.exports = {
   isAuthenticated
