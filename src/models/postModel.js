@@ -1,7 +1,12 @@
 const mongoose = require('mongoose');
 
+const UserSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  profileURL: { type: String, required: true },
+});
+
 const PostSchema = new mongoose.Schema({
-  user: { type: String, require: true },
+  user: { type: UserSchema, require: true },
   userProfile: { type: String, require: true },
   title: { type: String, required: true },
   content: { type: String, require: true },
