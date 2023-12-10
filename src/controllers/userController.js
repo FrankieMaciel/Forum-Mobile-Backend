@@ -45,7 +45,6 @@ const login = async (req, res) => {
       const erro = new Error(JSON.stringify(user.errors));
       return res.send({ error: erro.message });
     }
-    const userObj = user.user;
 
     const token = jwt.sign({
       id: user._id, nome: userObj.username
@@ -53,11 +52,11 @@ const login = async (req, res) => {
 
     let obj = {
       token: token,
-      id: userObj._id,
-      username: userObj.username,
-      email: userObj.email,
-      profileURL: userObj.profileURL,
-      score: userObj.score
+      id: user.user._id,
+      username: user.user.username,
+      email: user.user.email,
+      profileURL: user.user.profileURL,
+      score: user.user.score
     };
     console.log(obj);
 

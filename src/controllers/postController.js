@@ -4,20 +4,14 @@ const { post } = require('../routes/router');
 const Post = require(path.resolve(__dirname, '..', 'models', 'postModel'));
 
 const create = async (req, res) => {
-  try {
-    console.log(req.body);
-    let p = await new Post(req.body);
-    if (p.errors.length > 0) {
-      throw new Error(p.errors);
-    }
-    return res.status(200).send(`Post Criado com sucesso! ${p}`);
-  } catch (error) {
-    console.error(error);
-  }
+  console.log(req.body);
+  let p = await new Post(req.body);
+  return res.status(200).send("Post Criado com sucesso!");
 };
 
 const readAll = async (req, res) => {
   let posts = await Post.readAll();
+  console.log(posts);
   return res.status(200).send(posts);
 };
 
