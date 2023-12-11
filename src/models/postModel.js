@@ -70,9 +70,13 @@ class Post {
     return post;
   }
 
+  static async filter(text) {
+    return await PostModel.find({ $text: { $search: text } });
+  }
+
   static async readFilter(text) {
     return await PostModel.find({ $text: { $search: text } });
   }
 }
 
-module.exports = PostModel;
+module.exports = Post;

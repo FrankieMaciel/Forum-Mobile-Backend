@@ -1,5 +1,4 @@
 const path = require('path');
-const { post } = require('../routes/router');
 
 const Post = require(path.resolve(__dirname, '..', 'models', 'postModel'));
 
@@ -11,7 +10,6 @@ const create = async (req, res) => {
 
 const readAll = async (req, res) => {
   let posts = await Post.readAll();
-  console.log(posts);
   return res.status(200).send(posts);
 };
 

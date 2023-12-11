@@ -5,9 +5,10 @@ exports.filterPosts = async (req, res) => {
     const { text } = req.params;
 
     try {
-        const posts = await Post.find({ $text: { $search: text } }).exec();
+        const posts = await Post.filter(text);
         console.log('Consulta bem-sucedida. Posts encontrados:', posts);
-        res.json(posts);
+        return res.status(200).send(posts);
+
     } catch (error) {
         console.error('Erro ao buscar os posts:', error);
         res.status(500).json({ error: 'Erro ao buscar os posts!' });

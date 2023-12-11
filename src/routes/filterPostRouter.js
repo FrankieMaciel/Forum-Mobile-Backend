@@ -1,8 +1,15 @@
 const express = require('express');
+const path = require('path');
 const router = express.Router();
 const filterPostController = require('../controllers/filterPostController');
 
-router.get('/:text', filterPostController.filterPosts);
+const tokenMiddleware = require(path.resolve(
+  __dirname, '..', 'middlewares', 'tokenMiddleware')
+);
+
+TM = tokenMiddleware.isAuthenticated;
+
+router.get('/:text', TM, filterPostController.filterPosts);
 
 
 module.exports = router;

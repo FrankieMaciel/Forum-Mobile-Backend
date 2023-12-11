@@ -111,6 +111,10 @@ class User {
     await UserModel.findByIdAndUpdate(id, edit, { new: true });
   }
 
+  static async filter(username) {
+    return await UserModel.find({ username: new RegExp(username, 'i') });
+  }
+
   cleanUp() {
     for (const key in this.body)
       if (typeof this.body[key] !== 'string') this.body[key] = '';
@@ -123,4 +127,4 @@ class User {
   }
 }
 
-module.exports = UserModel;
+module.exports = User;
