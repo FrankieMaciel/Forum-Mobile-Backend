@@ -123,4 +123,4 @@ class User {
   }
 }
 
-module.exports = User;
+module.exports = UserModel;

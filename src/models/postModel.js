@@ -6,9 +6,9 @@ const UserSchema = new mongoose.Schema({
 });
 
 const PostSchema = new mongoose.Schema({
-  user: { type: UserSchema, require: true },
+  user: { type: UserSchema, required: true },
   title: { type: String, required: true },
-  content: { type: String, require: true },
+  content: { type: String, required: true },
   date: { type: Date, default: Date.now },
 });
 
@@ -29,16 +29,23 @@ class Post {
   }
 
   async create() {
-    this.post = await PostModel.create(this.body);
+    try {
+      this.post = new PostModel(this.body);
+      await this.post.save();
+      console.log('Post salvo com sucesso:', this.post);
+    } catch (error) {
+      console.error('Erro ao criar ou salvar o post:', error);
+      this.errors.push(error.message);
+    }
   }
 
   static async readAll() {
     return await PostModel.find();
   }
 
-  static async readByUser(user) {
-    if (typeof user !== 'string') return;
-    const posts = await PostModel.find({ user });
+  static async readByUser(userName) {
+    if (typeof userName !== 'string') return;
+    const posts = await PostModel.find({ 'user.name': userName });
     return posts;
   }
 
@@ -47,14 +54,10 @@ class Post {
 
     const post = await PostModel.findById(id);
 
-    let newUsername = body.username ? body.username : post.username;
-    let newUserProfile = body.userProfile ? body.userProfile : post.userProfile;
     let newTitle = body.title ? body.title : post.title;
     let newContent = body.content ? body.content : post.content;
 
     const edit = {
-      username: newUsername,
-      userProfile: newUserProfile,
       title: newTitle,
       content: newContent
     };
@@ -72,4 +75,4 @@ class Post {
   }
 }
 
-module.exports = Post;
+module.exports = PostModel;
