@@ -48,7 +48,7 @@ const login = async (req, res) => {
     }
 
     const token = jwt.sign({
-      id: user._id, nome: userObj.username
+      id: user._id, nome: user.user.username
     }, secretKey);
 
     let obj = {
@@ -84,6 +84,7 @@ const update = async (req, res) => {
 };
 
 const ChangeProfile = async (req, res) => {
+  console.log('Recebi uma imagem!');
   return res.status(200).send("Alguma coisa chegou!");
 }
 

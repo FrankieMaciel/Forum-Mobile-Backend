@@ -26,6 +26,14 @@ class User {
 
   async validate(validateMode) {
     this.cleanUp();
+
+    if (!this.body.password) {
+      this.errors.push(
+        'Ah senha provavelmente é undefined'
+      );
+      return;
+    }
+
     const isPasswordValid = this.body.password.length <= sys.maxPasswordLen &&
       this.body.password.length >= sys.minPasswordLen;
 

@@ -11,6 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const router = require(path.resolve(__dirname, 'src', 'routes', 'router'));
 app.use(router);
+app.use('/public', express.static(path.join(__dirname, 'public')))
 
 // DATABASE
 const dbConn = 'Database connected';
