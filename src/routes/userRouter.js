@@ -18,6 +18,8 @@ router.post('/', userController.create);
 router.get('/',TM, userController.readAll);
 router.get('/:id',TM, userController.readById);
 router.post('/login', userController.login);
-router.post('/edit/:id',TM, multer.parser.single('pf-picture'), userController.update);
+router.post('/edit/:id',TM, userController.update);
+router.post('/profilePicture/:id',TM, multer.parser.single('pf-picture'), userController.ChangeProfile);
+router.get('/profilePicture/:id',TM, userController.SendProfile);
 
 module.exports = router;

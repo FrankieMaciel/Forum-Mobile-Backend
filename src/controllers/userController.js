@@ -3,6 +3,7 @@ require('dotenv').config();
 const secretKey = process.env.SECRET_KEY;
 
 const path = require('path');
+const fs = require('fs');
 const jwt = require('jsonwebtoken');
 
 const User = require(path.resolve(__dirname, '..', 'models', 'userModel'));
@@ -82,10 +83,28 @@ const update = async (req, res) => {
   return res.status(200).send('Usuário foi atualizado com sucesso!');
 };
 
+const ChangeProfile = async (req, res) => {
+  return res.status(200).send("Alguma coisa chegou!");
+}
+
+const SendProfile = async (req, res) => {
+
+  const id = req.params.id;
+
+  const imagePath = path.join('public', 'custom-pfp', `${id}.jpg`);
+  const imageContent = fs.readFileSync(imagePath);
+  console.log(imageContent);
+  res.set('Content-Type', 'image/jpeg');
+
+  return res.status(200).send(imageContent);
+}
+
 module.exports = {
   create,
   login,
   readAll,
   readById,
-  update
+  update,
+  ChangeProfile,
+  SendProfile
 };
