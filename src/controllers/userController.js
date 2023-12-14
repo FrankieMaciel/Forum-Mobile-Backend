@@ -80,7 +80,7 @@ const readById = async (req, res) => {
 
 const update = async (req, res) => {
   await User.update(req.params.id, req.body);
-  return res.status(200).send('Usuário foi atualizado com sucesso!');
+  return res.status(200).send(user);
 };
 
 const ChangeProfile = async (req, res) => {
@@ -100,6 +100,16 @@ const SendProfile = async (req, res) => {
   return res.status(200).send(imageContent);
 }
 
+const destroy = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const user = await User.delete(id);
+    res.status(200).send(`Post deletado com sucesso!\n${user}`);
+  } catch (error) {
+    res.status(500).send(`Deu erro aqui no deletar post!\n${error}`);
+  }
+}
+  
 module.exports = {
   create,
   login,
@@ -107,5 +117,6 @@ module.exports = {
   readById,
   update,
   ChangeProfile,
-  SendProfile
+  SendProfile,
+  destroy,
 };

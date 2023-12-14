@@ -123,6 +123,12 @@ class User {
     return await UserModel.find({ username: new RegExp(username, 'i') });
   }
 
+  static async delete(id) {
+    if (typeof id !== 'string') return;
+    const user = await UserModel.findByIdAndDelete(id);
+    return user;
+  }
+
   cleanUp() {
     for (const key in this.body)
       if (typeof this.body[key] !== 'string') this.body[key] = '';

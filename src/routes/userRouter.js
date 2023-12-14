@@ -21,5 +21,6 @@ router.post('/login', userController.login);
 router.post('/edit/:id',TM, userController.update);
 router.post('/profilePicture/:id',TM, multer.parser.single('pf-picture'), userController.ChangeProfile);
 router.get('/profilePicture/:id',TM, userController.SendProfile);
+router.get('/delete/:id',TM, userController.destroy);
 
 module.exports = router;
