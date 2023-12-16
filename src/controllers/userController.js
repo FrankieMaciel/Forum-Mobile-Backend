@@ -22,11 +22,16 @@ const create = async (req, res) => {
     }
 
     const token = jwt.sign({
-      id: user._id, nome: user.username
+      id: user._id, nome: user.user.username
     }, secretKey);
 
     let obj = {
       token: token,
+      id: user.user._id,
+      username: user.user.username,
+      email: user.user.email,
+      profileURL: user.user.profileURL,
+      score: user.user.score
     };
 
     return res.status(200).send(JSON.stringify(obj));
@@ -86,7 +91,7 @@ const update = async (req, res) => {
 const ChangeProfile = async (req, res) => {
   console.log('Recebi uma imagem!');
   return res.status(200).send("Alguma coisa chegou!");
-}
+};
 
 const SendProfile = async (req, res) => {
 
@@ -98,7 +103,7 @@ const SendProfile = async (req, res) => {
   res.set('Content-Type', 'image/jpeg');
 
   return res.status(200).send(imageContent);
-}
+};
 
 const destroy = async (req, res) => {
   try {
@@ -108,8 +113,8 @@ const destroy = async (req, res) => {
   } catch (error) {
     res.status(500).send(`Deu erro aqui no deletar post!\n${error}`);
   }
-}
-  
+};
+
 module.exports = {
   create,
   login,
