@@ -84,7 +84,7 @@ const readById = async (req, res) => {
 };
 
 const update = async (req, res) => {
-  await User.update(req.params.id, req.body);
+  const user = await User.update(req.params.id, req.body);
   return res.status(200).send(user);
 };
 

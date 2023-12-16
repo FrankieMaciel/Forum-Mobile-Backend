@@ -14,8 +14,8 @@ const readAll = async (req, res) => {
 };
 
 const readByUser = async (req, res) => {
-  let user = req.params.id;
-  let posts = await Post.readByUser(user);
+  let username = req.params.username;
+  let posts = await Post.readByUser(username);
   return res.status(200).send(posts);
 };
 

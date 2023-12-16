@@ -12,8 +12,8 @@ const LocalizationRouter = require(path.resolve(__dirname,'localizationRouter'))
 router.use('/users', userRoutes);
 router.use('/posts', postRouter);
 router.use('/comments', commentRouter);
-router.use('/filter/posts',filterPostsRouter);
-router.use('/filter/users',filterUserRouter);
+router.use('/filterPosts',filterPostsRouter);
+router.use('/filterUsers',filterUserRouter);
 router.use('/localizations', LocalizationRouter);
 
 module.exports = router;

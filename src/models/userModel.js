@@ -101,7 +101,8 @@ class User {
   static async update(id, body) {
     if (typeof id !== 'string') return;
 
-    const user = await UserModel.findById(id);
+    let user = await UserModel.findById(id);
+    console.log(body);
 
     let newUsername = body.username ? body.username : user.username;
     let newUserProfile = body.ProfileUrl ? body.ProfileUrl : user.ProfileUrl;
@@ -116,7 +117,8 @@ class User {
       password: newPassword,
       score: newScore
     };
-    await UserModel.findByIdAndUpdate(id, edit, { new: true });
+    user = await UserModel.findByIdAndUpdate(id, edit, { new: true });
+    return user;
   }
 
   static async filter(username) {

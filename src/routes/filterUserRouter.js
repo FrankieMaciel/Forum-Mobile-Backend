@@ -10,5 +10,6 @@ const tokenMiddleware = require(path.resolve(
 TM = tokenMiddleware.isAuthenticated;
 
 router.get('/:username', TM, filterUserController.filterUsers);
+router.get('/', TM, filterUserController.filterAllUsers);
 
 module.exports = router;

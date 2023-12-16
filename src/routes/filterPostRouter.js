@@ -10,6 +10,7 @@ const tokenMiddleware = require(path.resolve(
 TM = tokenMiddleware.isAuthenticated;
 
 router.get('/:text', TM, filterPostController.filterPosts);
+router.get('/', TM, filterPostController.filterAllPosts);
 
 
 module.exports = router;
