@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema({
   username: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
-  profileURL: { type: String, default: '/img/emojii1.png' },
+  profileURL: { type: String, default: '/default_2.png' },
   score: { type: Number, default: 0 }
 });
 
@@ -65,8 +65,8 @@ class User {
     const salt = bcryptjs.genSaltSync();
     this.body.password = bcryptjs.hashSync(this.body.password, salt);
 
-    let number = Math.ceil(Math.random() * 4);
-    this.body.ProfileUrl = `/img/emojii${number}.png`;
+    let number = Math.ceil(Math.random() * 3);
+    this.body.profileURL = `/default_${number}.png`;
 
     this.user = await UserModel.create(this.body);
   }
