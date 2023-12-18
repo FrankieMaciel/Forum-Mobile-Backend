@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  profileURL: { type: String, required: true }
+  profileURL: { type: String, required: true },
+  userID: {type: String, required: true}
 });
 
 const CommentSchema = new mongoose.Schema({
@@ -40,12 +41,12 @@ class Comment {
   }
 
   static async readAll() {
-    return await CommentModel.find();
+    return await CommentModel.find().sort({ date: -1 });
   }
 
   static async readByUser(userName) {
     if (typeof userName !== 'string') return;
-    const comments = await CommentModel.find({ 'user.name': userName });
+    const comments = await CommentModel.find({ 'user.name': userName }).sort({ date: -1 });
     return comments;
   }
 
@@ -70,7 +71,7 @@ class Comment {
 
   static async findPostsComment(postID) {
     if (typeof postID !== 'string') return;
-    const comments = await CommentModel.find({ postId: postID });
+    const comments = await CommentModel.find({ postId: postID }).sort({ date: -1 });
     return comments;
   }
 }

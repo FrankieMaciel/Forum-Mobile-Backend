@@ -41,12 +41,12 @@ class Post {
   }
 
   static async readAll() {
-    return await PostModel.find();
+    return await PostModel.find().sort({ date: -1 });
   }
 
   static async readByUser(userName) {
     if (typeof userName !== 'string') return;
-    const posts = await PostModel.find({ 'user.name': userName });
+    const posts = await PostModel.find({ 'user.name': userName }).sort({ date: -1 });
     return posts;
   }
 
@@ -72,11 +72,11 @@ class Post {
   }
 
   static async filter(text) {
-    return await PostModel.find({ $text: { $search: text } });
+    return await PostModel.find({ $text: { $search: text } }).sort({ date: -1 });
   }
 
   static async readFilter(text) {
-    return await PostModel.find({ $text: { $search: text } });
+    return await PostModel.find({ $text: { $search: text } }.sort({ date: -1 }));
   }
 }
 
